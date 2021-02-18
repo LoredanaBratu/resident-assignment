@@ -1,25 +1,14 @@
 import React from "react";
+import errors from "../../constants/errorsConstants";
 import StyledSelectComponent from "./StyledSelectComponent";
+import ErrorComponent from "../ErrorComponent/ErrorComponent";
 
-const SelectComponent = ({
-  label,
-  className,
-  options,
-  name,
-  onSelect,
-  selectedOption,
-  error,
-}) => {
+const SelectComponent = ({ name, error, label, options, value, ...rest }) => {
   return (
     <StyledSelectComponent>
       {label && <label className="label-select">{label}</label>}
       <div className="select-wrapper">
-        <select
-          name={name}
-          onChange={onSelect}
-          className={className}
-          value={selectedOption}
-        >
+        <select name={name} value={value} {...rest}>
           <option value="" />
           {(options || []).map((optionSelect, index) => (
             <option key={index} value={optionSelect}>
@@ -27,7 +16,13 @@ const SelectComponent = ({
             </option>
           ))}
         </select>
-        {error && <span className="error-message">Required</span>}
+        {error && (
+          <ErrorComponent
+            message={
+              name === "units" ? errors.required : errors.noProjectSelected
+            }
+          />
+        )}
       </div>
     </StyledSelectComponent>
   );

@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StyledUserForm from "./StyledUserForm";
 import ClearIcon from "../../assets/close.png";
+import Footer from "../../components/Footer/Footer";
 import ProjectDetails from "../ProjectDetails/ProjectDetails";
 import InputComponent from "../../components/InputComponent/InputComponent";
-import Footer from "../../components/Footer/Footer";
+import ErrorComponent from "../../components/ErrorComponent/ErrorComponent";
 
 const UserForm = () => {
   const [projectsInput, setProjectsInput] = useState("");
   const [currentProjId, setCurrentProjId] = useState(0);
+  const [projectNameError, setProjectNameError] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [showJSON, setShowJSON] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
@@ -15,6 +18,15 @@ const UserForm = () => {
     currentProjects: [],
   });
   const [errors, setErrors] = useState({ projects: [], currentProjects: [] });
+  const [touched, setTouched] = useState({
+    userName: false,
+    projects: [],
+    currentProjects: [],
+  });
+
+  useEffect(() => {
+    validateForm();
+  }, [touched, formData]);
 
   function updateCurrentProjects(oldProjectName, newProjectName) {
     return [...formData.currentProjects].map((project) =>
@@ -34,23 +46,39 @@ const UserForm = () => {
   }
 
   function handleInputChange({ target }) {
-    setFormData((prevState) => ({
-      ...prevState,
-      [target?.name]: target?.value,
-    }));
+    if (target?.value.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [target?.name]: target?.value,
+      }));
+    }
   }
   function handleInputProjectsChange({ target }) {
     setProjectsInput(target?.value);
   }
   function addProjectName(e) {
-    if (e?.key !== "Enter") {
+    const { target } = e;
+    if (e?.key !== "Enter" || !target?.value?.trim()) {
+      return;
+    }
+
+    if (formData.projects.indexOf(projectsInput) > -1) {
+      setProjectNameError("Project already exists");
+      setTimeout(() => {
+        setProjectNameError("");
+      }, 3000);
+
       return;
     }
     setFormData((prevState) => ({
       ...prevState,
-      projects: [...formData.projects, projectsInput],
+      projects: [...prevState.projects, projectsInput],
     }));
     setProjectsInput("");
+    setTouched((prevState) => ({
+      ...prevState,
+      projects: [...prevState.projects, false],
+    }));
   }
 
   function handleAddSection() {
@@ -67,7 +95,19 @@ const UserForm = () => {
         },
       ],
     });
-    setCurrentProjId((state) => state + 1);
+    setCurrentProjId((prevState) => prevState + 1);
+    setTouched((prevState) => ({
+      ...prevState,
+      currentProjects: [
+        ...prevState.currentProjects,
+        {
+          selectedProject: false,
+          details: false,
+          duration: false,
+          units: false,
+        },
+      ],
+    }));
   }
 
   function handleRemoveProject(projectId) {
@@ -91,9 +131,6 @@ const UserForm = () => {
       projects: updatedProjectsList,
       currentProjects,
     });
-    setTimeout(() => {
-      validateForm();
-    }, 1000);
   }
 
   function toggleJSON() {
@@ -105,15 +142,26 @@ const UserForm = () => {
     if (!formData.userName) {
       newErrors.userName = true;
     }
+    if (!formData.projects.length) {
+      newErrors.projects = [...newErrors.projects, true];
+    }
+
+    if (!formData.currentProjects.length) {
+      newErrors.currentProjects = [
+        ...newErrors.currentProjects,
+        { selectedProject: true },
+      ];
+    }
     formData.projects.forEach((project) => {
       if (!project) {
         newErrors.projects = [...newErrors.projects, true];
       }
     });
+
     formData.currentProjects.forEach((project) => {
       const projectErrors = {};
       Object.keys(project).forEach((key) => {
-        if (!project[key]) {
+        if (!project[key] && key !== "projectId") {
           projectErrors[key] = true;
         }
       });
@@ -121,11 +169,80 @@ const UserForm = () => {
     });
     setErrors(newErrors);
   }
+
+  function updateTouchedInputs() {
+    const newTouched = { projects: [], currentProjects: [] };
+    if (!formData.userName) {
+      newTouched.userName = true;
+    }
+    formData.projects.forEach((project) => {
+      if (!project) {
+        newTouched.projects = [...newTouched.projects, true];
+      }
+    });
+    formData.currentProjects.forEach((project) => {
+      const projectTouched = {};
+      Object.keys(project).forEach((key) => {
+        if (!project[key] && key !== "projectId") {
+          projectTouched[key] = true;
+        }
+      });
+      newTouched.currentProjects = [
+        ...newTouched.currentProjects,
+        projectTouched,
+      ];
+    });
+    setTouched(newTouched);
+  }
+
+  function isValidForm() {
+    let isValid = true;
+    if (errors.userName) {
+      isValid = false;
+    }
+    errors.projects.forEach((project) => {
+      if (project) {
+        isValid = false;
+      }
+    });
+    errors.currentProjects.forEach((project) => {
+      Object.keys(project).forEach((key) => {
+        if (project[key]) {
+          isValid = false;
+        }
+      });
+    });
+    return isValid;
+  }
+
   function submitForm() {
     validateForm();
+    updateTouchedInputs();
+
+    if (isValidForm()) {
+      console.log("Success: ", formData);
+      setFormSubmitted(true);
+    } else {
+      console.log("Error: empty fields");
+    }
   }
   function resetForm() {
     setFormData({ userName: "", projects: [], currentProjects: [] });
+  }
+
+  function handleTouch({ index, name, category }) {
+    if (!category) {
+      setTouched((state) => ({ ...state, [name]: true }));
+    } else {
+      const newCategory = [...touched[category]];
+      if (category === "projects") {
+        newCategory.splice(index, 1, true);
+      } else {
+        const item = newCategory[index];
+        newCategory.splice(index, 1, { ...item, [name]: true });
+      }
+      setTouched((state) => ({ ...state, [category]: newCategory }));
+    }
   }
 
   const { userName, projects, currentProjects } = formData;
@@ -134,38 +251,45 @@ const UserForm = () => {
       {showJSON ? (
         <div className="json-string"> {JSON.stringify(formData)}</div>
       ) : (
-        <form className="user-form-container">
+        <form className="user-form-container" data-testid="projects-form">
+          {formSubmitted && <p className="submitted-message">Submitted!</p>}
           <InputComponent
+            size="large"
             label="Name"
             name="userName"
             value={userName}
-            size="large"
-            handleChange={handleInputChange}
-            error={errors.userName}
+            id="user-name-input"
+            onChange={handleInputChange}
+            error={errors.userName && touched.userName}
+            onBlur={() => handleTouch({ name: "userName" })}
           />
           <p>Projects</p>
           <div className="projects-tags">
             {(projects || []).map((project, index) => (
               <InputComponent
-                key={index}
-                name="projects"
-                RightIcon={ClearIcon}
-                value={project}
+                key={index + "-project"}
                 size="small"
-                handleChange={({ target }) =>
+                name="projects"
+                value={project}
+                id="project-name-tag"
+                RightIcon={ClearIcon}
+                onRightIconClick={handleRemoveTag}
+                onChange={({ target }) =>
                   onProjectNameUpdate(target.value, index)
                 }
-                onRightIconClick={handleRemoveTag}
-                error={errors.projects[index]}
+                error={errors.projects[index] && touched.projects[index]}
+                onBlur={() => handleTouch({ category: "projects" })}
               />
             ))}
             <InputComponent
               size="small"
               name="projects"
               value={projectsInput}
-              addProjectName={addProjectName}
-              handleChange={handleInputProjectsChange}
+              onKeyDown={addProjectName}
+              id="project-name-input"
+              onChange={handleInputProjectsChange}
             />
+            {projectNameError && <ErrorComponent message={projectNameError} />}
           </div>
 
           <p className="project-details">
@@ -182,22 +306,24 @@ const UserForm = () => {
               <ProjectDetails
                 key={index}
                 index={index}
-                projectId={project.projectId}
-                project={project}
-                handleRemoveProject={handleRemoveProject}
                 data={formData}
-                setFormData={setFormData}
                 errors={errors}
+                touched={touched}
+                project={project}
+                setFormData={setFormData}
+                projectId={project.projectId}
+                handleTouch={handleTouch}
+                handleRemoveProject={handleRemoveProject}
               />
             ))}
           </div>
         </form>
       )}
       <Footer
-        toggleJSON={toggleJSON}
         showJSON={showJSON}
-        onSubmit={submitForm}
         onCancel={resetForm}
+        onSubmit={submitForm}
+        toggleJSON={toggleJSON}
       />
     </StyledUserForm>
   );

@@ -1,8 +1,13 @@
 import React from "react";
-import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import StyledFooter from "./StyledFooter";
+import ButtonComponent from "../ButtonComponent/ButtonComponent";
 
-const Footer = ({ toggleJSON, showJSON, onSubmit, onCancel }) => {
+const Footer = ({
+  showJSON = false,
+  onSubmit = () => null,
+  onCancel = () => null,
+  toggleJSON = () => null,
+}) => {
   return (
     <StyledFooter>
       <div className="form-container">
@@ -10,23 +15,23 @@ const Footer = ({ toggleJSON, showJSON, onSubmit, onCancel }) => {
           type="submit"
           value="Submit"
           className="json-btn"
-          buttonText={showJSON ? "Show form" : "View form JSON"}
           onClick={toggleJSON}
+          buttonText={showJSON ? "Show form" : "View form JSON"}
         />
         <div className="actions-buttons">
           <ButtonComponent
             type="reset"
             value="Reset"
-            buttonText="Cancel"
-            className="action-btn"
             onClick={onCancel}
+            buttonText="Cancel"
+            className="action-btn reset"
           />
           <ButtonComponent
             type="submit"
             value="Submit"
             buttonText="Save"
-            className="action-btn"
             onClick={onSubmit}
+            className="action-btn submit"
           />
         </div>
       </div>

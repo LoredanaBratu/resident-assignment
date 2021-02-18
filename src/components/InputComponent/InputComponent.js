@@ -1,20 +1,21 @@
 import React from "react";
+import PropTypes from "prop-types";
 import StyledInputComponent from "./StyledInputComponent";
+import ErrorComponent from "../ErrorComponent/ErrorComponent";
 
 const InputComponent = ({
-  label,
   size,
   value,
-  handleChange,
-  name,
-  RightIcon,
-  onRightIconClick,
   error,
-  handleRemove = () => null,
-  addProjectName = () => null,
+  label,
+  RightIcon,
+  className,
+  type = "text",
+  onRightIconClick = () => null,
+  ...rest
 }) => {
   return (
-    <StyledInputComponent>
+    <StyledInputComponent className={className}>
       {label && (
         <div className="input-label">
           <label>{label}</label>
@@ -22,22 +23,20 @@ const InputComponent = ({
       )}
       <div className="input-wrapper">
         <input
-          type="text"
-          name={name}
+          type={type}
           value={value}
           className={`input input--${size}`}
-          onChange={handleChange}
-          onKeyDown={addProjectName}
           onKeyPress={(e) => e.key === "Enter" && e.preventDefault()}
+          {...rest}
         />
-        {error && <span className="error-message">Required</span>}
+        {error && <ErrorComponent />}
       </div>
       {RightIcon && (
         <img
           src={RightIcon}
           alt="Clear input"
-          onClick={() => onRightIconClick(value)}
           className="right-icon"
+          onClick={() => onRightIconClick(value)}
         />
       )}
     </StyledInputComponent>
@@ -45,6 +44,18 @@ const InputComponent = ({
 };
 export default InputComponent;
 
-// InputComponent.propTypes = {
-//   size: PropTypes.oneOf(["small", "large"]),
-// };
+InputComponent.propTypes = {
+  size: PropTypes.oneOf(["extraSmall", "small", "large"]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.bool,
+  label: PropTypes.string,
+  RightIcon: PropTypes.string,
+  className: PropTypes.string,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  key: PropTypes.string,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onRightIconClick: PropTypes.func,
+};

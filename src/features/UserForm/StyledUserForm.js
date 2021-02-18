@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Colors from "../../constants/colorConstants";
 
 const StyledUserForm = styled.div`
   .project-details {
@@ -13,8 +14,8 @@ const StyledUserForm = styled.div`
   }
   .add-section-icon {
     height: 20px;
-    transform: rotate(45deg);
     margin-left: 5px;
+    transform: rotate(45deg);
   }
   .projects-tags {
     display: flex;
@@ -24,7 +25,16 @@ const StyledUserForm = styled.div`
     height: 20px;
   }
   .json-string {
-    padding: 20px;
+    margin: 0 auto;
+    max-width: 700px;
+    box-sizing: border-box;
+    word-break: break-word;
+    padding: 25px 2px 110px 2px;
+    color: ${Colors.lightBlue};
+  }
+  .username-input {
+    flex: 1;
+    flex-direction: column;
   }
 `;
 

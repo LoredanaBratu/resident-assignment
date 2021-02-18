@@ -1,21 +1,24 @@
 import styled from "styled-components";
 
 const StyledInputComponent = styled.div`
-  position: relative;
-  height: 22px;
   display: flex;
+  position: relative;
+  input:focus {
+    outline: none;
+  }
   .input-label {
     padding-right: 5px;
   }
   .right-icon {
-    position: absolute;
-    height: 16px;
-    vertical-align: middle;
+    top: 3px;
     z-index: 2;
     right: 10px;
-    top: 3px;
+    height: 16px;
+    position: absolute;
+    vertical-align: middle;
   }
   .input {
+    max-height: 22px;
     margin-right: 5px;
     &--extraSmall {
       width: 70px;
@@ -28,13 +31,9 @@ const StyledInputComponent = styled.div`
     }
   }
   .input-wrapper {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    flex: 1;
-  }
-  .error-message {
-    color: red;
-    font-size: 12px;
   }
 `;
 

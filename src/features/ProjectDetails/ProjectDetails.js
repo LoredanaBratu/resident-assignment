@@ -1,84 +1,120 @@
 import React from "react";
-import StyledProjectDetails from "./StyledProjectDetails";
-import SelectComponent from "../../components/SelectComponent/SelectComponent";
-import InputComponent from "../../components/InputComponent/InputComponent";
 import ClearIcon from "../../assets/close.png";
+import StyledProjectDetails from "./StyledProjectDetails";
 import { Constants } from "../../constants/formConstants";
+import InputComponent from "../../components/InputComponent/InputComponent";
+import SelectComponent from "../../components/SelectComponent/SelectComponent";
+import TextareaComponent from "../../components/TextareaComponent/TextareaComponent";
 
 const ProjectDetails = ({
   data,
+  index,
+  errors,
+  project,
+  touched,
   projectId,
   setFormData,
-  project,
-  errors,
-  index,
+  handleTouch,
   handleRemoveProject,
 }) => {
   const { currentProjects } = data;
 
   function handleChange({ target }) {
-    const updatedProjectList = (currentProjects || []).map((project) =>
-      project.projectId !== projectId
-        ? project
-        : {
-            ...project,
-            [target.name]: target.value,
-          }
-    );
-    setFormData({ ...data, currentProjects: updatedProjectList });
+    if (target?.value?.trim()) {
+      const updatedProjectList = (currentProjects || []).map((project) =>
+        project.projectId !== projectId
+          ? project
+          : {
+              ...project,
+              [target.name]: target.value,
+            }
+      );
+      setFormData({ ...data, currentProjects: updatedProjectList });
+    }
   }
-
+  const currentProjectsErr = errors.currentProjects[index];
+  const touchedCurrentProjects = touched.currentProjects[index];
   return (
     <StyledProjectDetails>
-      <SelectComponent
-        label="Project"
-        name="selectedProject"
-        className="select-project"
-        options={data.projects}
-        onSelect={handleChange}
-        error={errors.currentProjects[index]?.selectedProject}
-      />
-      <div className="details-textarea-section">
-        <span className="label-textarea">Details</span>
-        <div className="textarea-wrapper">
-          <textarea
-            className="textarea-details-field"
-            id="details-area"
-            name="details"
-            rows="3"
-            value={project.details}
-            onChange={handleChange}
-          />
-          {errors.currentProjects[index]?.details && (
-            <span className="error-message">Required</span>
-          )}
-        </div>
-      </div>
-      <div className="duration-container">
-        <div>Duration </div>
-        <div className="duration-section">
-          <InputComponent
-            name="duration"
-            size="extraSmall"
-            value={project.duration}
-            handleChange={handleChange}
-            error={errors.currentProjects[index]?.duration}
-          />
-          <SelectComponent
-            name="units"
-            className="select-duration"
-            onSelect={handleChange}
-            options={Constants.projectDetail.duration}
-            error={errors.currentProjects[index]?.units}
-          />
-        </div>
-        <img
-          id={projectId}
-          src={ClearIcon}
-          alt="Remove section"
-          className="delete-section-icon"
-          onClick={() => handleRemoveProject(projectId)}
+      <div className="project-details-sections">
+        <SelectComponent
+          label="Project"
+          name="selectedProject"
+          onChange={handleChange}
+          options={data.projects}
+          className="select-project"
+          onFocus={() =>
+            handleTouch({
+              name: "selectedProject",
+              category: "currentProjects",
+              index,
+            })
+          }
+          value={project.selectedProject}
+          error={
+            currentProjectsErr?.selectedProject &&
+            touchedCurrentProjects?.selectedProject
+          }
         />
+        <TextareaComponent
+          label="Details"
+          value={project.details}
+          onChange={handleChange}
+          onBlur={() =>
+            handleTouch({
+              name: "details",
+              category: "currentProjects",
+              index,
+            })
+          }
+          className="textarea-details-field"
+          error={currentProjectsErr?.details && touchedCurrentProjects?.details}
+        />
+        <div className="duration-container">
+          <div>Duration </div>
+          <div className="duration-section">
+            <InputComponent
+              type="number"
+              name="duration"
+              size="extraSmall"
+              id="duration-input"
+              onChange={handleChange}
+              value={project.duration}
+              onBlur={() =>
+                handleTouch({
+                  name: "duration",
+                  category: "currentProjects",
+                  index,
+                })
+              }
+              error={
+                currentProjectsErr?.duration && touchedCurrentProjects?.duration
+              }
+            />
+            <SelectComponent
+              name="units"
+              value={project.units}
+              onChange={handleChange}
+              className="select-duration"
+              options={Constants.projectDetail.duration}
+              onFocus={() =>
+                handleTouch({
+                  name: "units",
+                  category: "currentProjects",
+                  index,
+                })
+              }
+              error={currentProjectsErr?.units && touchedCurrentProjects?.units}
+            />
+          </div>
+          <img
+            id={projectId}
+            src={ClearIcon}
+            alt="Remove section"
+            className="delete-section-icon"
+            onClick={() => handleRemoveProject(projectId)}
+          />
+        </div>
       </div>
     </StyledProjectDetails>
   );
