@@ -1,6 +1,6 @@
 const errors = {
-  required: "required",
+  required: "Required",
   alreadyExists: "Project already exists",
-  noProjectSelected: "please select a project",
+  noProjectSelected: "Please select a project",
 };
 export default errors;

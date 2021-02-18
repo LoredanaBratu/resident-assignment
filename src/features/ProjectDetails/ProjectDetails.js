@@ -20,17 +20,15 @@ const ProjectDetails = ({
   const { currentProjects } = data;
 
   function handleChange({ target }) {
-    if (target?.value?.trim()) {
-      const updatedProjectList = (currentProjects || []).map((project) =>
-        project.projectId !== projectId
-          ? project
-          : {
-              ...project,
-              [target.name]: target.value,
-            }
-      );
-      setFormData({ ...data, currentProjects: updatedProjectList });
-    }
+    const updatedProjectList = (currentProjects || []).map((project) =>
+      project.projectId !== projectId
+        ? project
+        : {
+            ...project,
+            [target.name]: target.value,
+          }
+    );
+    setFormData({ ...data, currentProjects: updatedProjectList });
   }
   const currentProjectsErr = errors.currentProjects[index];
   const touchedCurrentProjects = touched.currentProjects[index];

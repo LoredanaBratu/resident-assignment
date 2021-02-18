@@ -12,7 +12,7 @@ const InputComponent = ({
   className,
   type = "text",
   onRightIconClick = () => null,
-  ...rest
+  ...otherParams
 }) => {
   return (
     <StyledInputComponent className={className}>
@@ -27,7 +27,7 @@ const InputComponent = ({
           value={value}
           className={`input input--${size}`}
           onKeyPress={(e) => e.key === "Enter" && e.preventDefault()}
-          {...rest}
+          {...otherParams}
         />
         {error && <ErrorComponent />}
       </div>
@@ -53,7 +53,7 @@ InputComponent.propTypes = {
   className: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string,
-  key: PropTypes.string,
+  keyInput: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,

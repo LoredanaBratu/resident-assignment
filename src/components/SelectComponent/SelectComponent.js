@@ -3,12 +3,19 @@ import errors from "../../constants/errorsConstants";
 import StyledSelectComponent from "./StyledSelectComponent";
 import ErrorComponent from "../ErrorComponent/ErrorComponent";
 
-const SelectComponent = ({ name, error, label, options, value, ...rest }) => {
+const SelectComponent = ({
+  name,
+  error,
+  label,
+  options,
+  value,
+  ...otherParams
+}) => {
   return (
     <StyledSelectComponent>
       {label && <label className="label-select">{label}</label>}
       <div className="select-wrapper">
-        <select name={name} value={value} {...rest}>
+        <select name={name} value={value} {...otherParams}>
           <option value="" />
           {(options || []).map((optionSelect, index) => (
             <option key={index} value={optionSelect}>

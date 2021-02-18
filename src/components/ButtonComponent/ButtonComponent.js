@@ -1,10 +1,10 @@
 import React from "react";
 import StyledButtonComponent from "./StyledButtonComponent";
 
-const ButtonComponent = ({ buttonText, ...rest }) => {
+const ButtonComponent = ({ buttonText, ...otherParams }) => {
   return (
     <StyledButtonComponent>
-      <button {...rest}>{buttonText}</button>
+      <button {...otherParams}>{buttonText}</button>
     </StyledButtonComponent>
   );
 };

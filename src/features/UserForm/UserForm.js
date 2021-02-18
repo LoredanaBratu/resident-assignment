@@ -46,12 +46,10 @@ const UserForm = () => {
   }
 
   function handleInputChange({ target }) {
-    if (target?.value.trim()) {
-      setFormData((prevState) => ({
-        ...prevState,
-        [target?.name]: target?.value,
-      }));
-    }
+    setFormData((prevState) => ({
+      ...prevState,
+      [target?.name]: target?.value,
+    }));
   }
   function handleInputProjectsChange({ target }) {
     setProjectsInput(target?.value);
@@ -139,7 +137,7 @@ const UserForm = () => {
 
   function validateForm() {
     const newErrors = { projects: [], currentProjects: [] };
-    if (!formData.userName) {
+    if (!(formData?.userName || "").trim()) {
       newErrors.userName = true;
     }
     if (!formData.projects.length) {
@@ -161,7 +159,7 @@ const UserForm = () => {
     formData.currentProjects.forEach((project) => {
       const projectErrors = {};
       Object.keys(project).forEach((key) => {
-        if (!project[key] && key !== "projectId") {
+        if (key !== "projectId" && !(project[key] || "")?.trim()) {
           projectErrors[key] = true;
         }
       });
@@ -183,7 +181,7 @@ const UserForm = () => {
     formData.currentProjects.forEach((project) => {
       const projectTouched = {};
       Object.keys(project).forEach((key) => {
-        if (!project[key] && key !== "projectId") {
+        if (key !== "projectId") {
           projectTouched[key] = true;
         }
       });
@@ -215,6 +213,12 @@ const UserForm = () => {
     return isValid;
   }
 
+  function resetForm() {
+    setFormData({ userName: "", projects: [], currentProjects: [] });
+    setTouched({ userName: false, projects: [], currentProjects: [] });
+    setErrors({ userName: false, projects: [], currentProjects: [] });
+  }
+
   function submitForm() {
     validateForm();
     updateTouchedInputs();
@@ -222,12 +226,10 @@ const UserForm = () => {
     if (isValidForm()) {
       console.log("Success: ", formData);
       setFormSubmitted(true);
+      resetForm();
     } else {
       console.log("Error: empty fields");
     }
-  }
-  function resetForm() {
-    setFormData({ userName: "", projects: [], currentProjects: [] });
   }
 
   function handleTouch({ index, name, category }) {
