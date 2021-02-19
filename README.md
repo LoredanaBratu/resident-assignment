@@ -35,7 +35,7 @@ Here are listed the main technologies used in the application.
 
 ## 4. Deployment process
 
-Currently, the application is deployed on https://..... 
+Currently, the application is deployed on https://loredanabratu.github.io/resident-assignment/
 
 ## 5. Available scripts
 
