@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/resident-assignment/static/css/main.ceac6349.chunk.css",
+    "main.js": "/resident-assignment/static/js/main.d44c68b8.chunk.js",
+    "main.js.map": "/resident-assignment/static/js/main.d44c68b8.chunk.js.map",
+    "runtime-main.js": "/resident-assignment/static/js/runtime-main.e0667641.js",
+    "runtime-main.js.map": "/resident-assignment/static/js/runtime-main.e0667641.js.map",
+    "static/js/2.26b8c34c.chunk.js": "/resident-assignment/static/js/2.26b8c34c.chunk.js",
+    "static/js/2.26b8c34c.chunk.js.map": "/resident-assignment/static/js/2.26b8c34c.chunk.js.map",
+    "static/js/3.8dcaab10.chunk.js": "/resident-assignment/static/js/3.8dcaab10.chunk.js",
+    "static/js/3.8dcaab10.chunk.js.map": "/resident-assignment/static/js/3.8dcaab10.chunk.js.map",
+    "index.html": "/resident-assignment/index.html",
+    "static/css/main.ceac6349.chunk.css.map": "/resident-assignment/static/css/main.ceac6349.chunk.css.map",
+    "static/js/2.26b8c34c.chunk.js.LICENSE.txt": "/resident-assignment/static/js/2.26b8c34c.chunk.js.LICENSE.txt",
+    "static/media/close.b396869b.png": "/resident-assignment/static/media/close.b396869b.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e0667641.js",
+    "static/js/2.26b8c34c.chunk.js",
+    "static/css/main.ceac6349.chunk.css",
+    "static/js/main.d44c68b8.chunk.js"
+  ]
+}
