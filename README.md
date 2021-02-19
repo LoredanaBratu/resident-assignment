@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# Table of Contents
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Scope of the project
+2. Technologies
+3. Need to know
+4. Deployment process
+5. Available scripts
+6. Polyfills
+7. Project file architecture
 
-## Available Scripts
+## 1. Scope of the project
 
-In the project directory, you can run:
+**User projects** is a form for people who needs to fill in info about their previous projects. Users should be able to use this form to save the information about the projects which he/she worked on.
 
-### `yarn start`
+**Scope:** Create a reusable component for helping people to write down their projects experience. People should complete data regarding their name, the projects in which they were involved, some details about that projects, their responsibility on that projects and the duration of the development process.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 2. Technologies
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Here are listed the main technologies used in the application.
 
-### `yarn test`
+- [ReactJS](https://reactjs.org/)
+- [Styled Components](https://styled-components.com/)
+  Using tagged template literals (a recent addition to JavaScript) and the power of CSS, **styled-components** allows you to write actual CSS code to style your components. It also removes the mapping between components and styles – using components as a low-level styling construct could not be easier!
+- [Jest](https://jestjs.io/)
+  **Jest** is a delightful JavaScript Testing Framework with a focus on simplicity.
+- [Enzyme](https://enzymejs.github.io/enzyme/)
+  **Enzyme** is a JavaScript Testing utility for React that makes it easier to test your React Components' output. You can also manipulate, traverse, and in some ways simulate runtime given the output.
+- [ReactTestUtils](https://reactjs.org/docs/test-utils.html)
+  **ReactTestUtils** makes it easy to test React components in the testing framework of your choice..
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 3. Need to know
 
-### `yarn build`
+- [React Functional Components](https://programmingwithmosh.com/react/react-functional-components/)
+- [React Hooks](https://reactjs.org/docs/hooks-intro.html)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 4. Deployment process
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Currently, the application is deployed on https://..... 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 5. Available scripts
 
-### `yarn eject`
+| Script               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm  start`         | Runs the app in the development mode, by opening it at [http://localhost:3000](http://localhost:3000).                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `npm test`          | Launches the test runner in the interactive watch mode.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `npm build`         | Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance.                                                                                                                                                                                                                                                                        
+## 6. Polyfills
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [Optional chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) - The optional chaining operator `(?.)` permits reading the value of a property located deep within a chain of connected objects without having to expressly validate that each reference in the chain is valid.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 7. Project file architecture
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Here will be described the custom files and directories created by us. If you want to learn more about the default React Files Structure you can visit [this](https://medium.com/@abesingh1/create-react-app-files-folders-structure-explained-df24770f8562).
+### /src :
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| File           | Description                                                                                                                                                       |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/assets`      | Static files used by the application.                                                                                                                             |
+| `/components`  | Reusable React Components                                                                                                                                     |
+| `/constants`   | Globally placed immutable variables that can be used all over the application                                                                                     |
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| `/features`    | All the functionality is split here into **Functional Container Components**                                                                                                                              
 
 ### Deployment
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
