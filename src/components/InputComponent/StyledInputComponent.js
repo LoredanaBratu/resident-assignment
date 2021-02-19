@@ -3,6 +3,8 @@ import styled from "styled-components";
 const StyledInputComponent = styled.div`
   display: flex;
   position: relative;
+  padding-bottom: 2px;
+  flex-direction: column;
   input:focus {
     outline: none;
   }
